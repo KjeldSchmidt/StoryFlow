@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>
+        Storyflow
+    </title>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'flow/style.css' %}">
+</head>
+<body>
+<nav id="header" class="container">
+    <a href="/">
+        <img src="" alt="" id="logo">
+        LOGO
+    </a>
+    <ul id="main_nav">
+        <li>entry_1</li>
+        <li>entry_2</li>
+        <li>entry_3</li>
+        <li>entry_4</li>
+        <li>entry_5</li>
+    </ul>
+    <div id="account">
+        <a href="/signup">
+            Login/Signup
+        </a>
+    </div>
+</nav>
+<div class="content container">
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
