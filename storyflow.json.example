@@ -4,4 +4,5 @@
     "PASS": "database_password",
     "HOST": "database_host",
     "PORT": "database_port",
+    "SECRET_KEY": "f(pi@3gp+6i6ib&1kiyh8ahydnh!u^0#j+6@y=nz+$+v&zcwm$",
 }

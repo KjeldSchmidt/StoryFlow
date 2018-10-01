@@ -39,6 +39,7 @@ table {
 
 a, a:visited, a:active {
     color: #35d;
+    text-decoration: none;
 }
 
 input, button {

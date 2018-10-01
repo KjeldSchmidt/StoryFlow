@@ -24,7 +24,7 @@ with open( BASE_DIR + "/storyflow.json" ) as f:
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f(pi@3gp+6i6ib&1kiyh8ahydnh!u^0#j+6@y=nz+$+v&zcwm$'
+SECRET_KEY = configs["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -126,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'flow.User'
