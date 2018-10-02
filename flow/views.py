@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from .models import Game
+from .forms import SignupForm
 
 
 def index( request ):
@@ -13,20 +13,15 @@ def index( request ):
 
 def signup( request ):
     if request.method == 'POST':
-        form = UserCreationForm( request.POST )
+        form = SignupForm( request.POST )
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get( 'username' )
-            raw_password = form.cleaned_data.get( 'password1' )
-            user = authenticate( username=username, password=raw_password )
-            if user is not None:
-                login( request, user )
-            return redirect( 'home' )
+            return redirect( 'index' )
     else:
-        form = UserCreationForm()
+        form = SignupForm()
     return render( request, 'flow/signup.html', {
         'form': form
-    } )
+    }   )
 
 
 def game( request, game_id ):

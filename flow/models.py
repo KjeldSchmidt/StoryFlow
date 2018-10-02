@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User( AbstractUser ):
-    profile_picture = models.ImageField( null=True )
+    profile_picture = models.ImageField( blank=True, null=True )
 
 
 class Game( models.Model ):
