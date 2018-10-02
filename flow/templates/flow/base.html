@@ -1,10 +1,13 @@
+{% load static %}
+{% load i18n %}
+
+{% trans "Storyflow" as page_title %}
+
 <html>
 <head>
     <title>
-        Storyflow
+        {{ page_title }}
     </title>
-    {% load static %}
-
     <link rel="stylesheet" type="text/css" href="{% static 'flow/style.css' %}">
 </head>
 <body>
