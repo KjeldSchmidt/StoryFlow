@@ -4,7 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User( AbstractUser ):
-    pass
+    profile_picture = models.ImageField( null=True )
+
 
 class Game( models.Model ):
     creator = models.ForeignKey( settings.AUTH_USER_MODEL, on_delete=models.CASCADE )
