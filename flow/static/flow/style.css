@@ -57,10 +57,11 @@ input, button {
     border-radius: 0.2rem;
 }
 
-nav#header div, nav#header ul, nav#header img {
+nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #login_form {
     display: inline-block;
 }
 
-nav#header ul li {
-    display: inline-block;
+#login_form input {
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
 }

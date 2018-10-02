@@ -22,9 +22,22 @@
         <li>Tutorials</li>
     </ul>
     <div id="account">
-        <a href="/signup">
-            Login/Signup
-        </a>
+        {% if user.is_authenticated %}
+            {{ user.username }}
+            <a href="/login/logout">
+                Logout
+            </a>
+        {% else %}
+            <form action="/login/" method="post" id="login_form">
+                {% csrf_token %}
+                <input type="text" placeholder="Username" name="username_storyflow">
+                <input type="password" placeholder="Password" name="password_storyflow">
+                <input type="submit" value="Login">
+            </form>
+            <a href="/signup">
+                Signup
+            </a>
+        {% endif %}
     </div>
 </nav>
 <div class="content container">
