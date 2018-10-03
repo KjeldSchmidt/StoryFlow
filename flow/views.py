@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
-from .models import Game
+from .models import Game, Editors
 from .forms import SignupForm, GameCreationForm
 from django.utils.translation import gettext as _
 from .default_models import first_story_on_new_game
@@ -34,6 +34,9 @@ def create_game( request ):
             game = game_form.save()
             first_story = first_story_on_new_game( game )
             first_story.save()
+            game.first_story = first_story
+            game.save()
+            Editors.objects.create( user=request.user, game=game)
             return redirect( '/game/' + str( game.id ) )
         else:
             form = game_form
@@ -54,4 +57,8 @@ def game_by_id( request, game_id ):
         game = Game.objects.get( pk=game_id )
     except Game.DoesNotExist:
         raise Http404( "Game does not exist" )
-    return HttpResponse( str( game ) )
+    is_editor = Editors.objects.filter( game_id=game_id, user_id=request.user.id ).exists()
+    return render( request, 'flow/game.html', {
+        'game': game,
+        'is_editor': is_editor
+    } )
