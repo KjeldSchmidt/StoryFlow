@@ -1,0 +1,18 @@
+{% extends 'flow/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h2>{{ game.name }}</h2>
+    <p>
+        {{ game.description }}
+    </p>
+    {% if is_editor %}
+        <a href="">
+            <button>
+                {% trans 'Edit Game' %}
+            </button>
+        </a>
+    {% endif %}
+{% endblock %}
+
+
