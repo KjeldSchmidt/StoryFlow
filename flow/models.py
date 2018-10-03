@@ -11,7 +11,7 @@ class Game( models.Model ):
     creator = models.ForeignKey( settings.AUTH_USER_MODEL, on_delete=models.CASCADE )
     name = models.CharField( max_length=50 )
     description = models.CharField( max_length=1000 )
-    first_text = models.ForeignKey( 'Story', on_delete=models.CASCADE, related_name='+' )
+    first_story = models.ForeignKey( 'Story', on_delete=models.CASCADE, related_name='+', blank=True, null=True )
 
 
 class Story( models.Model ):

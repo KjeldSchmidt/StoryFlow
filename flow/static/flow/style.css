@@ -65,3 +65,7 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
     padding: 0 0.5rem;
     font-size: 0.8rem;
 }
+
+.error input, .error select {
+    border: 2px red solid;
+}
