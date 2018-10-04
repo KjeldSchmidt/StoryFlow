@@ -1,9 +1,12 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
-from .models import Game, Editors
-from .forms import SignupForm, GameCreationForm
 from django.utils.translation import gettext as _
-from .default_models import first_story_on_new_game
+
+from flow.access_helper import is_editor
+from .models import Game, Editors, Story
+from .forms import SignupForm, GameCreationForm, StoryForm
+from .default_models import first_story_on_new_game, new_story_on_game
 
 
 def index( request ):
@@ -36,7 +39,7 @@ def create_game( request ):
             first_story.save()
             game.first_story = first_story
             game.save()
-            Editors.objects.create( user=request.user, game=game)
+            Editors.objects.create( user=request.user, game=game )
             return redirect( '/game/' + str( game.id ) )
         else:
             form = game_form
@@ -57,8 +60,55 @@ def game_by_id( request, game_id ):
         game = Game.objects.get( pk=game_id )
     except Game.DoesNotExist:
         raise Http404( "Game does not exist" )
-    is_editor = Editors.objects.filter( game_id=game_id, user_id=request.user.id ).exists()
     return render( request, 'flow/game.html', {
         'game': game,
-        'is_editor': is_editor
+        'is_editor': is_editor( game_id, request.user )
     } )
+
+
+def edit_game( request, game_id ):
+    try:
+        game = Game.objects.get( pk=game_id )
+    except Game.DoesNotExist:
+        raise Http404( _( "Game does not exist" ) )
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
+    return render( request, 'flow/edit_game.html', {
+        'game': game,
+        'stories': Story.objects.filter( game_id=game_id ),
+    } )
+
+
+def edit_story( request, game_id, story_id ):
+    try:
+        game = Game.objects.get( pk=game_id )
+        story = Story.objects.get( pk=story_id )
+    except Game.DoesNotExist:
+        raise Http404( _( "Game or story does not exist" ) )
+
+    if request.method == 'POST':
+        story_form = StoryForm( request.POST, instance=story )
+        if story_form.is_valid():
+            story_form.save()
+            redirect( 'index' )
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
+    story_form = StoryForm( instance=story )
+
+    return render( request, 'flow/edit_story.html', {
+        'game': game,
+        'story_form': story_form,
+        'form_submit_action': request.get_full_path()
+    } )
+
+
+def add_story( request, game_id ):
+    try:
+        game = Game.objects.get( pk=game_id )
+    except Game.DoesNotExist:
+        raise Http404( _( "Game or story does not exist" ) )
+    story = new_story_on_game( game )
+    story.save()
+    return edit_story( request, game_id, story.id )

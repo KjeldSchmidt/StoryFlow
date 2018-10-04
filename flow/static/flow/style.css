@@ -42,7 +42,7 @@ a, a:visited, a:active {
     text-decoration: none;
 }
 
-input, button {
+input, button, textarea {
     border: 1px solid #888888;
     border-radius: 5px;
     background-color: #eeeeee;

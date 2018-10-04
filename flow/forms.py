@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, HiddenInput
-from .models import User, Game
+from .models import User, Game, Story
 
 
 class SignupForm( ModelForm ):
@@ -21,3 +21,19 @@ class GameCreationForm( ModelForm ):
             'first_story': HiddenInput(),
         }
         error_css_class = 'error'
+
+
+class StoryForm( ModelForm ):
+    class Meta:
+        model = Story
+        fields = [ 'name', 'text', 'comment' ]
+        widgets = {
+            'text': Textarea( attrs={
+                'cols': 60,
+                'rows': 10
+            } ),
+            'comment': Textarea( attrs={
+                'cols': 60,
+                'rows': 10
+            } )
+        }

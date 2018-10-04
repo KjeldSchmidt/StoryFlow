@@ -1,0 +1,24 @@
+{% extends 'flow/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h2>{{ game.name }}</h2>
+    {% trans "Editing Mode" %}
+    <p>
+        {{ game.description }}
+    </p>
+    <a href="/game/{{ game.id }}/edit/add_story">
+        <button>Add Story</button>
+    </a>
+    <ul id="story_flow_overview">
+        {% for story in stories %}
+            <li>
+                <a href="/game/{{ game.id }}/edit/story/{{ story.id }}">
+                    {{ story.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
