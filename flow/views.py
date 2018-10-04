@@ -111,4 +111,4 @@ def add_story( request, game_id ):
         raise Http404( _( "Game or story does not exist" ) )
     story = new_story_on_game( game )
     story.save()
-    return edit_story( request, game_id, story.id )
+    return redirect( 'edit_story', game_id=game_id, story_id=story.id )
