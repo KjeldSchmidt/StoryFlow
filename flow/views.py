@@ -122,3 +122,36 @@ def add_story( request, game_id ):
     story = new_story_on_game( game )
     story.save()
     return redirect( 'edit_story', game_id=game_id, story_id=story.id )
+
+
+def games_list_played( request ):
+    if request.user.is_authenticated:
+        games = Game.objects.filter( playthrough__user=request.user )
+    else:
+        games = None
+    return render( request, 'flow/list_games.html', {
+        'games': games,
+        'link_target': 'games_list_all',
+        'link_text': _( 'See all games' )
+    } )
+
+
+def games_list_mine( request ):
+    if request.user.is_authenticated:
+        games = Game.objects.filter( editors__user=request.user )
+    else:
+        games = None
+    return render( request, 'flow/list_games.html', {
+        'games': games,
+        'link_target': 'create_game',
+        'link_text': _( 'Create a game now' )
+    } )
+
+
+def games_list_all( request ):
+    games = Game.objects.all()
+    return render( request, 'flow/list_games.html', {
+        'games': games,
+        'link_target': 'create_game',
+        'link_text': _( 'Create a game now' )
+    } )

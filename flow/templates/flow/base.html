@@ -20,16 +20,28 @@
         <li>About</li>
         <li>Pricing</li>
         <li>Tutorials</li>
+        <li>
+            <a href="/games/list/all">
+                Search Games
+            </a>
+        </li>
     </ul>
     <div id="account">
         {% if user.is_authenticated %}
-            {{ user.username }}
-            <a href="/login/logout">
-                Logout
-            </a>
-            <a href="/game/create">
-                {% trans "New Game" %}
-            </a>
+            <ul>
+                <li>{{ user.username }}</li>
+                <li>
+                    <a href="/login/logout">
+                        Logout
+                    </a>
+                </li>
+                <li>
+                    <a href="/game/create">
+                        {% trans "New Game" %}
+                    </a>
+                </li>
+                <li><a href="/games/list/mine">My Games</a></li>
+            </ul>
         {% else %}
             <form action="/login/" method="post" id="login_form">
                 {% csrf_token %}

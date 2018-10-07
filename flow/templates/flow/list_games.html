@@ -1,0 +1,23 @@
+{% extends 'flow/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <ul class="game_list">
+        {% for game in games %}
+            <li>
+                {{ game.name }}
+                {{ game.description }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if games is None %}
+        <p>
+            {% trans 'There are no games here.' %}
+            <a href="{% url link_target %}">
+                {{ link_text }}
+            </a>
+        </p>
+    {% endif %}
+
+{% endblock %}
