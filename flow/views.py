@@ -1,10 +1,11 @@
+from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils.translation import gettext as _
 
 from flow.access_helper import is_editor
-from .models import Game, Editors, Story
+from .models import Game, Editors, Story, User
 from .forms import SignupForm, GameCreationForm, StoryForm
 from .default_models import first_story_on_new_game, new_story_on_game
 
@@ -19,7 +20,16 @@ def signup( request ):
     if request.method == 'POST':
         form = SignupForm( request.POST )
         if form.is_valid():
-            form.save()
+            user = User.objects.create_user(
+                username=form[ 'username' ].value(),
+                email=form[ 'email' ].value(),
+                password=form[ 'password' ].value()
+            )
+            user.first_name = form[ 'first_name' ].value()
+            user.last_name = form[ 'last_name' ].value()
+            user.profile_picture = form[ 'profile_picture' ].value()
+            user.save()
+            login( request, user )
             return redirect( 'index' )
     else:
         form = SignupForm()
