@@ -69,3 +69,36 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
 .error input, .error select {
     border: 2px red solid;
 }
+
+#game_editor {
+    display: flex;
+    flex-direction: row;
+}
+
+.game_editor_panel {
+    padding: 1rem;
+    border: 1px solid #888888;
+}
+
+#game_editor_chat_panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#game_editor_chat_panel #chat_input {
+
+}
+
+#game_editor_chat_panel #chat_history {
+    background: #eeeeee;
+    border: 1px solid #888888;
+    margin: 1rem 0;
+    padding: 1rem;
+    height: 100%;
+}
+
+.chat_message {
+    line-height: 1.2rem;
+    margin: 0.5rem 0;
+}

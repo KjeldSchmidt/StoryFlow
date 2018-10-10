@@ -1,0 +1,59 @@
+<div id="chat_history">
+    {% for message in chat_messages %}
+        <p class="chat_message">
+            <input type="hidden" name="chat_message_id" value="{{ message.id }}">
+            {{ message.creator.username }}: {{ message.message }}
+        </p>
+    {% endfor %}
+</div>
+<input type="text" id="chat_input" title="chat_input">
+
+<script>
+	function send_chat_message( event, elem ) {
+		if ( event.keyCode === 13 ) {
+			postAjax( '{% url 'send_edit_chat' game.id %}', get_chat_messages, {
+				'message': elem.value,
+			} );
+			elem.value = "";
+		}
+	}
+
+	const chat_in = document.getElementById( 'chat_input' );
+	chat_in.addEventListener( 'keypress', ( event ) => {
+		send_chat_message( event, chat_in );
+	} );
+
+
+	let chatmessages_already_received = [];
+	const hidden_id_fields = document.getElementsByName( 'chat_message_id' );
+	for ( const field of hidden_id_fields ) {
+		chatmessages_already_received.push( parseInt( field.value ) );
+	}
+
+	function get_chat_messages() {
+		getAjax( '{% url 'get_edit_chat' game.id %}', paste_new_chat_messages, {
+			'last_message_id': chatmessages_already_received.last(),
+		} );
+	}
+
+	function paste_new_chat_messages( response ) {
+		const chat_box = document.getElementById( 'chat_history' );
+		const messages = JSON.parse( response );
+		const new_messages = messages.filter( function ( message ) {
+			return chatmessages_already_received.indexOf( message.pk ) === -1;
+		} );
+		new_messages.sort( function ( a, b ) {
+			return a.pk - b.pk;
+		} );
+
+		for ( const message of new_messages ) {
+			const p = document.createElement( 'p' );
+			p.appendChild( document.createTextNode( message.username + ': ' + message.message ) );
+			p.classList.add( 'chat_message' );
+			chat_box.appendChild( p );
+			chatmessages_already_received.push( message.pk );
+		}
+	}
+
+	setInterval( get_chat_messages, 1500 );
+</script>

@@ -13,4 +13,6 @@ urlpatterns = [
     path('games/list/all', views.games_list_all, name='games_list_all'),
     path('games/list/mine', views.games_list_mine, name='games_list_mine'),
     path('games/list/played', views.games_list_played, name='games_list_played'),
+    path( 'games/<int:game_id>/edit/chat/send/', views.receive_edit_chat, name='send_edit_chat' ),
+    path( 'games/<int:game_id>/edit/chat/get/', views.get_edit_chat, name='get_edit_chat' ),
 ]

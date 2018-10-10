@@ -3,9 +3,12 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_http_methods
+
+import json
 
 from flow.access_helper import is_editor
-from .models import Game, Editors, Story, User
+from .models import Game, Editors, Story, User, EditorChangeMessage
 from .forms import SignupForm, GameCreationForm, StoryForm
 from .default_models import first_story_on_new_game, new_story_on_game
 
@@ -84,9 +87,12 @@ def edit_game( request, game_id ):
     if not is_editor( game_id, request.user ):
         raise PermissionDenied( _( 'You are not an editor of this game' ) )
 
+    chat_messages = EditorChangeMessage.objects.filter( game_id=game_id ).order_by( 'timestamp' )
+
     return render( request, 'flow/edit_game.html', {
         'game': game,
         'stories': Story.objects.filter( game_id=game_id ),
+        'chat_messages': chat_messages
     } )
 
 
@@ -155,3 +161,26 @@ def games_list_all( request ):
         'link_target': 'create_game',
         'link_text': _( 'Create a game now' )
     } )
+
+
+def get_edit_chat( request, game_id ):
+    last_message_id = request.GET.get( 'last_message_id', 0 )
+    messages = EditorChangeMessage.objects.filter( game_id=game_id, pk__gt=last_message_id ).order_by( 'timestamp' )
+    clean_messages = [ ]
+    for message in messages:
+        clean_message = {
+            'pk': message.pk,
+            'username': message.creator.username,
+            'message': message.message
+        }
+        clean_messages.append( clean_message )
+    return HttpResponse( json.dumps( clean_messages ) )
+
+
+@require_http_methods( [ 'POST' ] )
+def receive_edit_chat( request, game_id ):
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
+    EditorChangeMessage.objects.create( creator=request.user, game_id=game_id, message=request.POST[ 'message' ] )
+    return HttpResponse()

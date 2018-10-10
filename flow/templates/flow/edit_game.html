@@ -7,18 +7,26 @@
     <p>
         {{ game.description }}
     </p>
-    <a href="/game/{{ game.id }}/edit/add_story">
-        <button>Add Story</button>
-    </a>
-    <ul id="story_flow_overview">
-        {% for story in stories %}
-            <li>
-                <a href="/game/{{ game.id }}/edit/story/{{ story.id }}">
-                    {{ story.name }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div id="game_editor">
+        <div id="game_editor_flow_panel" class="game_editor_panel">
+            <a href="/game/{{ game.id }}/edit/add_story">
+                <button>Add Story</button>
+            </a>
+            <ul id="story_flow_overview">
+                {% for story in stories %}
+                    <li>
+                        <a href="/game/{{ game.id }}/edit/story/{{ story.id }}">
+                            {{ story.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="game_editor_chat_panel" class="game_editor_panel">
+            {% include 'flow/chat.html' %}
+        </div>
+    </div>
 {% endblock %}
 
 
