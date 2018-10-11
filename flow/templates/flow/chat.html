@@ -36,6 +36,11 @@
 		} );
 	}
 
+	function scroll_to_end_of_chat() {
+        const position_required = document.querySelector('.chat_message:last-child').offsetTop;
+        document.getElementById('chat_history').scrollTop = position_required;
+	}
+
 	function paste_new_chat_messages( response ) {
 		const chat_box = document.getElementById( 'chat_history' );
 		const messages = JSON.parse( response );
@@ -52,8 +57,10 @@
 			p.classList.add( 'chat_message' );
 			chat_box.appendChild( p );
 			chatmessages_already_received.push( message.pk );
+			scroll_to_end_of_chat()
 		}
 	}
 
 	setInterval( get_chat_messages, 1500 );
+	scroll_to_end_of_chat();
 </script>
