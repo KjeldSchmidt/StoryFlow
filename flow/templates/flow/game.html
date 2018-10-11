@@ -7,7 +7,7 @@
         {{ game.description }}
     </p>
     {% if is_editor %}
-        <a href="/game/{{ game.id }}/edit">
+        <a href="{% url 'edit_game' game.id %}">
             <button>
                 {% trans 'Edit Game' %}
             </button>

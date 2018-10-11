@@ -9,15 +9,13 @@
     </p>
     <div id="game_editor">
         <div id="game_editor_flow_panel" class="game_editor_panel">
-            <a href="/game/{{ game.id }}/edit/add_story">
+            <a href="{% url 'add_story' game.id %}">
                 <button>Add Story</button>
             </a>
             <ul id="story_flow_overview">
                 {% for story in stories %}
-                    <li>
-                        <a href="/game/{{ game.id }}/edit/story/{{ story.id }}">
-                            {{ story.name }}
-                        </a>
+                    <li class="story_link" data-story_id="{{ story.id }}">
+                        {{ story.name }}
                     </li>
                 {% endfor %}
             </ul>
