@@ -73,11 +73,13 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
 #game_editor {
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
 .game_editor_panel {
     padding: 1rem;
     border: 1px solid #888888;
+    flex-basis: 33%;
 }
 
 #game_editor_chat_panel {
@@ -96,6 +98,7 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
     margin: 1rem 0;
     padding: 1rem;
     height: 100%;
+    overflow: scroll;
 }
 
 .chat_message {

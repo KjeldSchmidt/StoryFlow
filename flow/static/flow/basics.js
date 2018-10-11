@@ -6,6 +6,9 @@ if ( !Array.prototype.last ) {
 ;
 
 function buildDataString( data ) {
+	if ( data === undefined ) {
+		return '';
+	}
 	return Object.keys( data ).map(
 		function ( k ) {
 			return encodeURIComponent( k ) + '=' + encodeURIComponent( data[ k ] )
@@ -15,7 +18,7 @@ function buildDataString( data ) {
 
 function getAjax( url, callback, data ) {
 	let dataString = buildDataString( data );
-	let data_url = url + '?' + dataString;
+	let data_url = ( dataString === '' ) ? url : url + '?' + dataString;
 	let xmlhttp;
 
 	xmlhttp = new XMLHttpRequest();

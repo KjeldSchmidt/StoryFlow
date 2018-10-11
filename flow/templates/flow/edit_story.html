@@ -1,15 +1,9 @@
-{% extends 'flow/base.html' %}
 {% load i18n %}
 
-{% block content %}
-    <h2>{{ game.name }}</h2>
-    {% trans "Editing Mode" %}
-    <a href="/game/{{ game.id }}/edit">
-        Return to game overview
-    </a>
-    <form id="story_edit_container" method="post" action="{{ form_submit_action }}">
-        {% csrf_token %}
-        {{ story_form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
-{% endblock %}
+<form id="story_edit_form" method="post" action="{{ form_submit_action }}">
+    {% csrf_token %}
+    {{ story_form.as_p }}
+    <button id="story_edit_save_button" type="submit">
+        Save Changes
+    </button>
+</form>
