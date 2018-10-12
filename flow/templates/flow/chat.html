@@ -31,9 +31,10 @@
 	}
 
 	function get_chat_messages() {
-		getAjax( '{% url 'get_edit_chat' game.id %}', paste_new_chat_messages, {
+		const data = chatmessages_already_received.length == 0 ? {} : {
 			'last_message_id': chatmessages_already_received.last(),
-		} );
+		};
+		getAjax( '{% url 'get_edit_chat' game.id %}', paste_new_chat_messages, data);
 	}
 
 	function scroll_to_end_of_chat() {
