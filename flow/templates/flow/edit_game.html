@@ -1,5 +1,8 @@
 {% extends 'flow/base.html' %}
+
+{% load static %}
 {% load i18n %}
+
 
 {% block content %}
     <h2>{{ game.name }}</h2>
@@ -7,9 +10,9 @@
     <p>
         {{ game.description }}
     </p>
-    <div id="game_editor">
+    <div id="game_editor" data-game_id="{{ game.id }}">
         <div id="game_editor_flow_panel" class="game_editor_panel">
-            <a href="{% url 'add_story' game.id %}">
+            <a id="create_new_story_button" href="{% url 'add_story' game.id %}">
                 <button>Add Story</button>
             </a>
             <ul id="story_flow_overview">
@@ -20,11 +23,21 @@
                 {% endfor %}
             </ul>
         </div>
+        <div id="game_editor_story_panel" class="game_editor_panel">
 
+        </div>
         <div id="game_editor_chat_panel" class="game_editor_panel">
             {% include 'flow/chat.html' %}
         </div>
     </div>
+    <script src="{% static '/flow/edit_game.js' %}"></script>
+
+    <template id="story_link_template">
+        <li class="story_link" data-story_id="-1">
+
+        </li>
+    </template>
 {% endblock %}
+
 
 
