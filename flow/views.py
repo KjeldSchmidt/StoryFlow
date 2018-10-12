@@ -107,7 +107,6 @@ def edit_story( request, game_id, story_id ):
         story_form = StoryForm( request.POST, instance=story )
         if story_form.is_valid():
             story_form.save()
-            redirect( 'index' )
     if not is_editor( game_id, request.user ):
         raise PermissionDenied( _( 'You are not an editor of this game' ) )
 
