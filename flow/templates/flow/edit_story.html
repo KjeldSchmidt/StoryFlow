@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<form id="story_edit_form" method="post" action="{{ form_submit_action }}">
+<form id="story_edit_form" method="post" action="{{ form_submit_action }}" data-story_id="{{ story_id }}">
     {% csrf_token %}
     {{ story_form.as_p }}
     <button id="story_edit_save_button" type="submit">

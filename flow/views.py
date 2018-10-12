@@ -97,6 +97,9 @@ def edit_game( request, game_id ):
 
 
 def edit_story( request, game_id, story_id ):
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
     try:
         game = Game.objects.get( pk=game_id )
         story = Story.objects.get( pk=story_id )
@@ -107,23 +110,26 @@ def edit_story( request, game_id, story_id ):
         story_form = StoryForm( request.POST, instance=story )
         if story_form.is_valid():
             story_form.save()
-    if not is_editor( game_id, request.user ):
-        raise PermissionDenied( _( 'You are not an editor of this game' ) )
 
     story_form = StoryForm( instance=story )
 
     return render( request, 'flow/edit_story.html', {
         'game': game,
         'story_form': story_form,
-        'form_submit_action': request.get_full_path()
+        'form_submit_action': request.get_full_path(),
+        'story_id': story_id,
     } )
 
 
 def add_story( request, game_id ):
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
     try:
         game = Game.objects.get( pk=game_id )
     except Game.DoesNotExist:
         raise Http404( _( "Game or story does not exist" ) )
+
     story = new_story_on_game( game )
     story.save()
     return redirect( 'edit_story', game_id=game_id, story_id=story.id )
