@@ -73,19 +73,43 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
 #game_editor {
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 85%;
 }
 
 .game_editor_panel {
     padding: 1rem;
     border: 1px solid #888888;
-    flex-basis: 33%;
+    flex: 2 5 33%;
 }
 
 #game_editor_chat_panel {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+#game_editor_story_panel > #story_edit_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#game_editor_story_panel > #story_edit_form > p {
+    flex: 10 10 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    align-items: stretch;
+}
+
+#game_editor_story_panel > #story_edit_form > p:first-of-type {
+    flex: 1 1 5%;
+}
+
+#game_editor_story_panel > #story_edit_form > p > textarea {
+    flex: 10 10 100%;
+    width: 100%;
 }
 
 #game_editor_chat_panel #chat_input {

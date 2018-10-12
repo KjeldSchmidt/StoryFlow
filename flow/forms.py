@@ -30,10 +30,10 @@ class StoryForm( ModelForm ):
         widgets = {
             'text': Textarea( attrs={
                 'cols': 60,
-                'rows': 10
+                'rows': 1
             } ),
             'comment': Textarea( attrs={
                 'cols': 60,
-                'rows': 10
+                'rows': 1
             } )
         }
