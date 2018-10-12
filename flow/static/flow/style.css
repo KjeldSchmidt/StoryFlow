@@ -112,10 +112,6 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
     width: 100%;
 }
 
-#game_editor_chat_panel #chat_input {
-
-}
-
 #game_editor_chat_panel #chat_history {
     background: #eeeeee;
     border: 1px solid #888888;
