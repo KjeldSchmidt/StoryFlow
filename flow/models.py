@@ -23,6 +23,8 @@ class Story( models.Model ):
     comment = models.CharField( max_length=10000 )
     name = models.CharField( max_length=100 )
     background = models.FilePathField( default=None, null=True )
+    editor_panel_x = models.PositiveIntegerField()
+    editor_panel_y = models.PositiveIntegerField()
 
 
 class Playthrough( models.Model ):
@@ -42,6 +44,8 @@ class Choice( models.Model ):
     actions = models.CharField( max_length=200 )
     comment = models.CharField( max_length=10000 )
     name = models.CharField( max_length=100 )
+    editor_panel_x = models.PositiveIntegerField()
+    editor_panel_y = models.PositiveIntegerField()
 
 
 class StoryChoiceMap( models.Model ):
