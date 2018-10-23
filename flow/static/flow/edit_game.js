@@ -1,5 +1,49 @@
-let story_link_currently_edited = undefined;
 const game_id = document.getElementById( 'game_editor' ).dataset.game_id;
+
+
+/*
+
+
+	STORY PANEL CODE HERE
+
+
+ */
+
+
+/**
+ *      Attaches a submit handler to the currently active story form, which
+ *    POSTs the story panel to save all changes.
+ */
+function attach_submit_story_handler() {
+	const story_edit_form = document.getElementById( 'story_edit_form' );
+	story_edit_form.addEventListener( 'submit', function ( event ) {
+		event.preventDefault();
+		const data = {
+			'text': story_edit_form.text.value,
+			'name': story_edit_form.name.value,
+			'comment': story_edit_form.comment.value,
+		};
+
+		const url = story_edit_form.action;
+		postAjax( url, validate_story_submit_success, data );
+	} );
+}
+
+function validate_story_submit_success( response ) {
+	const new_story_name = document.getElementById( 'story_edit_form' ).name.value;
+	story_link_currently_edited.innerText = new_story_name;
+}
+
+
+/*
+
+
+	FLOW PANEL CODE HERE
+
+
+ */
+
+let story_link_currently_edited = undefined;
 
 /**
  * Attaches a handler to all story links in the flow panel
@@ -8,6 +52,15 @@ const game_id = document.getElementById( 'game_editor' ).dataset.game_id;
 document.querySelectorAll( '#story_flow_overview .story_link' ).forEach( function ( elem ) {
 	add_story_load_handler( elem );
 } );
+
+/**
+ * Attaches a handler to all story links in the flow panel for dragging them around
+ */
+
+document.querySelectorAll( '#story_flow_overview .story_link' ).forEach( function ( elem ) {
+	$( elem ).draggable( { containment: '#story_flow_overview' } );
+} );
+
 
 /**
  * Attaches a handler to the create new story button
@@ -80,29 +133,4 @@ function add_story_link( story_id, story_name ) {
 	flow_overview.appendChild( new_story_link );
 
 	return new_story_link;
-}
-
-
-/**
- * 	  Attaches a submit handler to the currently active  story form, which
- *    POSTs the story panel to save all changes.
- */
-function attach_submit_story_handler() {
-	const story_edit_form = document.getElementById( 'story_edit_form' );
-	story_edit_form.addEventListener( 'submit', function ( event ) {
-		event.preventDefault();
-		const data = {
-			'text': story_edit_form.text.value,
-			'name': story_edit_form.name.value,
-			'comment': story_edit_form.comment.value,
-		};
-
-		const url = story_edit_form.action;
-		postAjax( url, validate_story_submit_success, data );
-	} );
-}
-
-function validate_story_submit_success( response ) {
-	const new_story_name = document.getElementById( 'story_edit_form' ).name.value;
-	story_link_currently_edited.innerText = new_story_name;
 }

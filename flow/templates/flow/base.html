@@ -9,6 +9,8 @@
         {{ page_title }}
     </title>
     <link rel="stylesheet" type="text/css" href="{% static 'flow/style.css' %}">
+    {% block extra_head %}
+    {% endblock %}
 </head>
 <body>
 <nav id="header" class="container">
@@ -65,5 +67,8 @@
 </div>
 <script src="{% static 'flow/cookie.js' %}"></script>
 <script src="{% static 'flow/basics.js' %}"></script>
+<script src="{% static 'flow/jquery_slim_min.js' %}"></script>
+{% block extra_scripts %}
+{% endblock %}
 </body>
 </html>

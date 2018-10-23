@@ -125,3 +125,20 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
     line-height: 1.2rem;
     margin: 0.5rem 0;
 }
+
+#story_flow_overview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.story_link {
+    border: 1px solid #888888;
+    box-shadow: 2px 2px 3px #888888;
+    padding: 0.1rem 0.5rem;
+    display: inline-block;
+    background-color: white;
+    position: absolute;
+}
+
+.ui-draggable-handle{-ms-touch-action:none;touch-action:none}
