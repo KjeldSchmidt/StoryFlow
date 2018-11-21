@@ -79,7 +79,14 @@ nav#header ul li, nav#header div, nav#header ul, nav#header img, nav#header #log
 .game_editor_panel {
     padding: 1rem;
     border: 1px solid #888888;
-    flex: 2 5 33%;
+    flex-basis: 33%;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#game_editor_flow_panel {
+    height: 100%;
+    overflow: scroll;
 }
 
 #game_editor_chat_panel {

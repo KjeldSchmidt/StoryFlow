@@ -92,7 +92,9 @@ def edit_game( request, game_id ):
     return render( request, 'flow/edit_game.html', {
         'game': game,
         'stories': Story.objects.filter( game_id=game_id ),
-        'chat_messages': chat_messages
+        'chat_messages': chat_messages,
+        'flow_width': 1000, # TODO: Make values dynamic
+        'flow_height': 1000
     } )
 
 
@@ -188,4 +190,17 @@ def receive_edit_chat( request, game_id ):
         raise PermissionDenied( _( 'You are not an editor of this game' ) )
 
     EditorChangeMessage.objects.create( creator=request.user, game_id=game_id, message=request.POST[ 'message' ] )
+    return HttpResponse()
+
+
+@require_http_methods( [ 'POST' ] )
+def move_story( request, game_id, story_id ):
+    if not is_editor( game_id, request.user ):
+        raise PermissionDenied( _( 'You are not an editor of this game' ) )
+
+    story = Story.objects.get( pk=story_id )
+    story.editor_panel_x = request.POST[ 'x_position' ]
+    story.editor_panel_y = request.POST[ 'y_position' ]
+    story.save()
+
     return HttpResponse()

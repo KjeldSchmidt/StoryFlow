@@ -11,7 +11,7 @@ const game_id = document.getElementById( 'game_editor' ).dataset.game_id;
 
 
 /**
- *      Attaches a submit handler to the currently active story form, which
+ *     Attaches a submit handler to the currently active story form, which
  *    POSTs the story panel to save all changes.
  */
 function attach_submit_story_handler() {
@@ -58,7 +58,19 @@ document.querySelectorAll( '#story_flow_overview .story_link' ).forEach( functio
  */
 
 document.querySelectorAll( '#story_flow_overview .story_link' ).forEach( function ( elem ) {
-	$( elem ).draggable( { containment: '#story_flow_overview' } );
+	$( elem ).draggable( {
+		containment: '#story_flow_overview',
+		
+		stop: function ( event, ui ) {
+			const story_id = event.target.dataset.story_id;
+			const url = '/game/' + game_id + '/edit/story/' + story_id + "/move";
+			const data = {
+				x_position: ui.position.left,
+				y_position: ui.position.top
+			};
+			postAjax( url, undefined, data )
+		}
+	} );
 } );
 
 
