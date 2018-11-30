@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
+from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils.translation import gettext as _
@@ -89,12 +90,18 @@ def edit_game( request, game_id ):
 
     chat_messages = EditorChangeMessage.objects.filter( game_id=game_id ).order_by( 'timestamp' )
 
+    stories = Story.objects.filter( game_id=game_id )
+    stories_width = stories.aggregate( Max( 'editor_panel_x' ) )
+    stories_height = stories.aggregate( Max( 'editor_panel_y' ) )
+    flow_width = stories_width.get( 'editor_panel_x__max', 2000 ) + 500
+    flow_height = stories_width.get( 'editor_panel_y__max', 2000 ) + 500
+
     return render( request, 'flow/edit_game.html', {
         'game': game,
-        'stories': Story.objects.filter( game_id=game_id ),
+        'stories': stories,
         'chat_messages': chat_messages,
-        'flow_width': 1000, # TODO: Make values dynamic
-        'flow_height': 1000
+        'flow_width': flow_width,
+        'flow_height': flow_height
     } )
 
 

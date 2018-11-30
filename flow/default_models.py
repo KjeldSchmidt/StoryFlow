@@ -11,6 +11,8 @@ def first_story_on_new_game( game: Game ) -> Story:
     story.comment = _(
         'This is a comment. It is only visible to you and other editors of the game, never to players. Use it to communicate with yourself over time or with your teammates.' )
     story.background = None
+    story.editor_panel_x = 10
+    story.editor_panel_y = 10
     return story
 
 
